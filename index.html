@@ -108,7 +108,7 @@ h1,h2,h3{margin:0;font-family:var(--f-title);font-weight:400;text-wrap:balance;l
 .sign{font-family:var(--f-title);font-size:20px;margin-top:8px}
 .confetti{position:absolute;inset:0;pointer-events:none;z-index:1}
 .confetti i{position:absolute;width:10px;height:14px;border-radius:3px;animation:fall 7s linear infinite;opacity:.9}
-@keyframes fall{0%{transform:translateY(-30px) rotate(0)}100%{transform:translateY(420px) rotate(540deg)}}
+@keyframes fall{0%{transform:translateY(-30px) rotate(0)}100%{transform:translateY(560px) rotate(540deg)}}
 
 /* ⑤ info */
 .info{background:var(--paper);padding-block:56px 48px;display:flex;flex-direction:column;gap:22px;align-items:center}
@@ -136,7 +136,8 @@ h1,h2,h3{margin:0;font-family:var(--f-title);font-weight:400;text-wrap:balance;l
 .fam-frame{position:relative;width:100%;aspect-ratio:4/5;max-width:100%;border-radius:28px;background:linear-gradient(160deg,#4A3838,#2B2222);color:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;box-shadow:0 20px 40px rgba(59,47,47,.18);overflow:hidden}
 .fam-frame{aspect-ratio:3/4}
 .fam-frame video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.fam-sound{position:absolute;right:12px;top:12px;left:auto}
+.fam-cf{z-index:2}
+.fam-cf i{animation-duration:9s}
 @keyframes kb{0%{transform:scale(1)}100%{transform:scale(1.09) translateY(-1.5%)}}
 .hearts{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 .hearts i{position:absolute;bottom:-30px;font-size:22px;font-style:normal;animation:rise 6s linear infinite;opacity:0}
@@ -292,8 +293,8 @@ h1,h2,h3{margin:0;font-family:var(--f-title);font-weight:400;text-wrap:balance;l
   <div class="eyebrow">우리 가족</div>
   <h2>로운이와 함께한<br>우리 가족의 첫 1년</h2>
   <div class="fam-frame" id="famFrame">
-    <video id="famV" src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GObHnwJ1UMUu9vETRNq0YG4Q5L/2c22530d-6bff-4511-8862-b0d9160756b3.mp4" poster="assets/family.jpg" muted loop playsinline preload="metadata"></video>
-    <button class="sound fam-sound" id="famSound" type="button" aria-pressed="false">🔇 소리 켜기</button>
+    <video id="famV" autoplay src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GObHnwJ1UMUu9vETRNq0YG4Q5L/b900dc25-6547-438b-8718-5de8bf5dfb38.mp4" poster="assets/family.jpg" muted loop playsinline preload="metadata"></video>
+    <div class="confetti fam-cf" id="famCf" aria-hidden="true"></div>
   </div>
   </div>
   <div class="credit">Made with love for 이로운 · 2026<br>음악: Kevin MacLeod (<a href="https://incompetech.com" target="_blank" rel="noopener">incompetech.com</a>) · CC BY 4.0<br>Heartwarming · Carefree · Happy Bee · Life of Riley</div>
@@ -386,9 +387,10 @@ h1,h2,h3{margin:0;font-family:var(--f-title);font-weight:400;text-wrap:balance;l
   for(var i=0;i<22;i++){ var s=document.createElement('i'); s.style.left=(Math.random()*100)+'%'; s.style.background=cols[i%cols.length]; s.style.animationDelay=(-Math.random()*7)+'s'; s.style.animationDuration=(6+Math.random()*5)+'s'; s.style.transform='rotate('+(Math.random()*360)+'deg)'; cf.appendChild(s); }
 
   /* copy helpers */
-  var fv=document.getElementById('famV'), fsb=document.getElementById('famSound');
+  var fv=document.getElementById('famV');
   if('IntersectionObserver' in window){ new IntersectionObserver(function(es){es.forEach(function(e){ if(e.isIntersecting){fv.play().catch(function(){});} else {fv.pause();} });},{threshold:.3}).observe(fv); } else { fv.play().catch(function(){}); }
-  fsb.addEventListener('click',function(){ fv.muted=!fv.muted; if(!fv.muted){ if(!hv.muted){hv.muted=true;setBtn();} vids.forEach(function(o){o.pause();}); fv.play().catch(function(){}); } fsb.textContent=fv.muted?'🔇 소리 켜기':'🔊 소리 끄기'; fsb.setAttribute('aria-pressed',String(!fv.muted)); });
+  var fcf=document.getElementById('famCf');
+  for(var k=0;k<16;k++){ var q=document.createElement('i'); q.style.left=(Math.random()*100)+'%'; q.style.background=cols[k%cols.length]; q.style.animationDelay=(-Math.random()*9)+'s'; q.style.animationDuration=(7+Math.random()*5)+'s'; q.style.transform='rotate('+(Math.random()*360)+'deg)'; fcf.appendChild(q); }
   var toast=document.getElementById('toast'), tt;
   function say(m){ toast.textContent=m; toast.classList.add('on'); clearTimeout(tt); tt=setTimeout(function(){toast.classList.remove('on');},1800); }
   function copy(text,ok){
