@@ -53,11 +53,11 @@ h1,h2,h3{margin:0;font-family:var(--f-title);font-weight:400;text-wrap:balance;l
 /* ① opening */
 .hero{background:#2B2222;color:var(--bg);min-height:min(100svh,860px);display:flex;flex-direction:column;justify-content:flex-end}
 .hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
-.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(43,34,34,.15) 0%,rgba(43,34,34,0) 35%,rgba(43,34,34,.72) 100%);z-index:1}
-.hero .txt{position:relative;z-index:2;padding-block:40px 104px;text-shadow:0 2px 14px rgba(0,0,0,.5)}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(43,34,34,0) 0%,rgba(43,34,34,0) 70%,rgba(43,34,34,.55) 100%);z-index:1}
+.hero .txt{position:relative;z-index:2;padding-block:40px 96px;text-shadow:0 2px 14px rgba(0,0,0,.6);display:flex;flex-direction:column;gap:2px}
 .hero .eyebrow{color:var(--pink-soft)}
-.hero h1{font-size:clamp(50px,15vw,64px);line-height:1.05;margin-top:4px}
-.hero .date{font-family:var(--f-num);font-size:38px;line-height:1.1;margin-top:8px}
+.hero h1{font-size:clamp(26px,7.5vw,32px);line-height:1.1}
+.hero .date{font-family:var(--f-num);font-size:23px;line-height:1.1;opacity:.95}
 .hero .hint{display:flex;align-items:center;gap:8px;margin-top:20px;font-family:var(--f-label);font-size:19px;opacity:.92}
 .hint svg{animation:nudge 1.6s ease-in-out infinite}
 @keyframes nudge{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
@@ -113,6 +113,7 @@ h1,h2,h3{margin:0;font-family:var(--f-title);font-weight:400;text-wrap:balance;l
 .row .num{font-size:34px}
 .row .place{font-family:var(--f-title);font-size:23px}
 .row .sub{font-family:var(--f-hand);font-size:18px;color:var(--ink-2)}
+.chip{margin-top:6px;height:30px;padding:0 12px;border-radius:15px;border:1.5px solid var(--sky);background:var(--paper);color:var(--blue);font:700 12px var(--f-body);cursor:pointer}
 .mapbox{width:100%;border-radius:24px;background:var(--sky-soft);padding:22px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;color:var(--blue)}
 .mapbox b{font-family:var(--f-title);font-weight:400;font-size:22px}
 .mapbox small{font-family:var(--f-hand);font-size:17px}
@@ -127,7 +128,13 @@ h1,h2,h3{margin:0;font-family:var(--f-title);font-weight:400;text-wrap:balance;l
 .family{padding-block:56px 40px;display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center}
 .family h2{font-size:30px}
 .fam-frame{position:relative;width:100%;aspect-ratio:4/5;max-width:100%;border-radius:28px;background:linear-gradient(160deg,#4A3838,#2B2222);color:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;box-shadow:0 20px 40px rgba(59,47,47,.18);overflow:hidden}
-.fam-frame video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.fam-frame{aspect-ratio:3/4}
+.fam-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:kb 14s ease-in-out infinite alternate;transform-origin:50% 45%}
+@keyframes kb{0%{transform:scale(1)}100%{transform:scale(1.09) translateY(-1.5%)}}
+.hearts{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.hearts i{position:absolute;bottom:-30px;font-size:22px;font-style:normal;animation:rise 6s linear infinite;opacity:0}
+@keyframes rise{0%{transform:translateY(0) scale(.6);opacity:0}15%{opacity:.9}100%{transform:translateY(-120%) translateX(14px) scale(1.1);opacity:0}}
+.fam-ch{position:absolute;z-index:3}
 .fam-frame .ph{font-family:var(--f-hand);font-size:22px;line-height:1.6;opacity:.9}
 .fam-frame .ph b{display:block;font-family:var(--f-title);font-weight:400;font-size:26px}
 .family p{margin:0;font-family:var(--f-hand);font-size:21px;line-height:1.7;color:var(--ink-2)}
@@ -143,7 +150,7 @@ h1,h2,h3{margin:0;font-family:var(--f-title);font-weight:400;text-wrap:balance;l
 .bar .share{width:46px;padding:0;border-color:var(--butter-soft);background:var(--butter-soft)}
 
 @media (prefers-reduced-motion:reduce){
-  .ch i,.hint svg,.confetti i{animation:none}
+  .ch i,.hint svg,.confetti i,.fam-img,.hearts i{animation:none}
   .ep.pre{opacity:1;transform:none}
   html{scroll-behavior:auto}
 }
@@ -155,16 +162,14 @@ h1,h2,h3{margin:0;font-family:var(--f-title);font-weight:400;text-wrap:balance;l
 
 <!-- ① 오프닝 -->
 <section class="band hero">
-  <video id="heroV" src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GObHnwJ1UMUu9vETRNq0YG4Q5L/1e49099e-ac50-409f-8f72-46911378381f.mp4" autoplay muted loop playsinline preload="auto"></video>
+  <video id="heroV" autoplay loop playsinline preload="auto" src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GObHnwJ1UMUu9vETRNq0YG4Q5L/1e49099e-ac50-409f-8f72-46911378381f.mp4"></video>
   <button class="replay" id="replay" type="button">↺ 다시 보기</button>
-  <button class="sound" id="sound" type="button" aria-pressed="false">🔇 소리 켜기</button>
+  <button class="sound" id="sound" type="button" aria-pressed="true">🔊 소리 끄기</button>
   <span class="ch fairy lg" data-depth="1.2" style="left:6%;top:12%"><i></i></span>
   <span class="ch heart" data-depth=".7" style="right:8%;top:22%"><i></i></span>
   <div class="txt in">
-    <div class="eyebrow">첫 번째 생일에 초대합니다</div>
-    <h1>이로운의<br>돌잔치</h1>
-    <div class="date">2026. 11. 8. 일요일</div>
-    <div class="hint"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>아래로 내려서 로운이의 1년을 만나보세요</div>
+    <h1>이로운의 돌잔치</h1>
+    <div class="date">2026. 11. 8. 일요일 · 오후 1:30 · 더함뜰</div>
   </div>
 </section>
 
@@ -258,7 +263,7 @@ h1,h2,h3{margin:0;font-family:var(--f-title);font-weight:400;text-wrap:balance;l
   <div class="card">
     <div class="row"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#C0392B" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><div class="num">2026년 11월 8일 일요일</div></div>
     <div class="row"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#C0392B" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div class="num">오후 1시 30분</div></div>
-    <div class="row" style="align-items:flex-start"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#C0392B" stroke-width="2" aria-hidden="true"><path d="M12 21s7-6 7-11a7 7 0 1 0-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><div><div class="place">더함뜰</div><div class="sub">아래 지도 버튼을 누르면 길 안내가 열려요</div></div></div>
+    <div class="row" style="align-items:flex-start"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#C0392B" stroke-width="2" aria-hidden="true"><path d="M12 21s7-6 7-11a7 7 0 1 0-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><div style="min-width:0"><div class="place">더함뜰</div><div class="sub" id="addrText">대전 유성구 동서대로 181</div><button class="chip" type="button" id="copyAddr2">주소 복사</button></div></div>
   </div>
   <a class="mapbox" href="https://naver.me/IItcQphe" target="_blank" rel="noopener" style="text-decoration:none">
     <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21s7-6 7-11a7 7 0 1 0-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
@@ -269,7 +274,7 @@ h1,h2,h3{margin:0;font-family:var(--f-title);font-weight:400;text-wrap:balance;l
     <a class="btn primary" href="https://naver.me/IItcQphe" target="_blank" rel="noopener">네이버 지도</a>
     <a class="btn" href="https://map.kakao.com/?q=%EB%8D%94%ED%95%A8%EB%9C%B0" target="_blank" rel="noopener">카카오 지도</a>
     <a class="btn" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%EC%9D%B4%EB%A1%9C%EC%9A%B4%20%EB%8F%8C%EC%9E%94%EC%B9%98&dates=20261108T043000Z/20261108T063000Z&details=%EB%A1%9C%EC%9A%B4%EC%9D%B4%20%EC%B2%AB%20%EB%B2%88%EC%A7%B8%20%EC%83%9D%EC%9D%BC%20https%3A%2F%2Fnaver.me%2FIItcQphe&location=%EB%8D%94%ED%95%A8%EB%9C%B0" target="_blank" rel="noopener">달력에 추가</a>
-    <button class="btn" type="button" id="copyAddr">장소 링크 복사</button>
+    <button class="btn" type="button" id="copyAddr">주소 복사</button>
   </div>
 </section>
 
@@ -280,10 +285,11 @@ h1,h2,h3{margin:0;font-family:var(--f-title);font-weight:400;text-wrap:balance;l
   <div class="eyebrow">우리 가족</div>
   <h2>로운이와 함께한<br>우리 가족의 첫 1년</h2>
   <div class="fam-frame" id="famFrame">
-    <div class="ph"><b>가족사진 영상</b>곧 이 자리에 담길 예정이에요</div>
+    <img class="fam-img" src="assets/family.jpg" alt="로운이네 가족사진">
+    <div class="hearts" id="hearts" aria-hidden="true"></div>
+    <span class="ch heart lg fam-ch" style="right:10px;bottom:14px"><i></i></span>
   </div>
-  <p id="famMsg">로운아, 우리 가족이 되어줘서 고마워</p>
-  <div class="sign" id="sign2">엄마 · 아빠 · 이로운</div>
+  </div>
   <div class="credit">Made with love for 이로운 · 2026<br>음악: Kevin MacLeod (<a href="https://incompetech.com" target="_blank" rel="noopener">incompetech.com</a>) · CC BY 4.0<br>Heartwarming · Carefree · Happy Bee · Life of Riley</div>
 </section>
 
@@ -310,9 +316,15 @@ h1,h2,h3{margin:0;font-family:var(--f-title);font-weight:400;text-wrap:balance;l
 
   /* hero sound / replay */
   var hv=document.getElementById('heroV'), sb=document.getElementById('sound');
+  function setBtn(){ sb.textContent=hv.muted?'🔇 소리 켜기':'🔊 소리 끄기'; sb.setAttribute('aria-pressed',String(!hv.muted)); }
+  hv.muted=false;
+  hv.play().catch(function(){ hv.muted=true; hv.play().catch(function(){}); setBtn();
+    var un=function(){ hv.muted=false; hv.currentTime=0; hv.play().catch(function(){}); setBtn(); window.removeEventListener('pointerdown',un); window.removeEventListener('touchstart',un); window.removeEventListener('keydown',un); };
+    window.addEventListener('pointerdown',un,{passive:true}); window.addEventListener('touchstart',un,{passive:true}); window.addEventListener('keydown',un);
+  });
   sb.addEventListener('click',function(){
     hv.muted=!hv.muted; if(!hv.muted){hv.currentTime=0;hv.play().catch(function(){});}
-    sb.textContent=hv.muted?'🔇 소리 켜기':'🔊 소리 끄기'; sb.setAttribute('aria-pressed',String(!hv.muted));
+    setBtn();
   });
   document.getElementById('replay').addEventListener('click',function(){hv.currentTime=0;hv.play().catch(function(){});});
 
@@ -322,7 +334,7 @@ h1,h2,h3{margin:0;font-family:var(--f-title);font-weight:400;text-wrap:balance;l
     var ph=v.parentNode, btn=ph.querySelector('.play');
     btn.addEventListener('click',function(){
       vids.forEach(function(o){ if(o!==v){o.pause();} });
-      if(!hv.muted){hv.muted=true;sb.textContent='🔇 소리 켜기';}
+      if(!hv.muted){hv.muted=true;setBtn();}
       v.muted=false; v.controls=true; v.play().catch(function(){}); btn.hidden=true;
     });
     v.addEventListener('ended',function(){btn.hidden=false; v.controls=false;});
@@ -368,13 +380,16 @@ h1,h2,h3{margin:0;font-family:var(--f-title);font-weight:400;text-wrap:balance;l
   for(var i=0;i<22;i++){ var s=document.createElement('i'); s.style.left=(Math.random()*100)+'%'; s.style.background=cols[i%cols.length]; s.style.animationDelay=(-Math.random()*7)+'s'; s.style.animationDuration=(6+Math.random()*5)+'s'; s.style.transform='rotate('+(Math.random()*360)+'deg)'; cf.appendChild(s); }
 
   /* copy helpers */
+  var hb=document.getElementById('hearts'), hc=['💗','💕','💛','🩵','✨'];
+  for(var h=0;h<10;h++){ var e=document.createElement('i'); e.textContent=hc[h%hc.length]; e.style.left=(5+Math.random()*85)+'%'; e.style.animationDelay=(-Math.random()*6)+'s'; e.style.animationDuration=(5+Math.random()*4)+'s'; e.style.fontSize=(16+Math.random()*14)+'px'; hb.appendChild(e); }
   var toast=document.getElementById('toast'), tt;
   function say(m){ toast.textContent=m; toast.classList.add('on'); clearTimeout(tt); tt=setTimeout(function(){toast.classList.remove('on');},1800); }
   function copy(text,ok){
     var done=function(){say(ok);}, fail=function(){ try{ var ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); say(ok);}catch(e){say('복사가 안 되면 길게 눌러 복사해 주세요');} };
     if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(done,fail); } else fail();
   }
-  document.getElementById('copyAddr').addEventListener('click',function(){copy('더함뜰 https://naver.me/IItcQphe','장소 링크를 복사했어요');});
+  document.getElementById('copyAddr').addEventListener('click',function(){copy('대전 유성구 동서대로 181 더함뜰','주소를 복사했어요');});
+  document.getElementById('copyAddr2').addEventListener('click',function(){copy('대전 유성구 동서대로 181 더함뜰','주소를 복사했어요');});
   document.getElementById('share').addEventListener('click',function(){copy(location.href,'초대장 링크를 복사했어요');});
 })();
 </script>
