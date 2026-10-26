@@ -135,7 +135,8 @@ h1,h2,h3{margin:0;font-family:var(--f-title);font-weight:400;text-wrap:balance;l
 .family h2{font-size:30px}
 .fam-frame{position:relative;width:100%;aspect-ratio:4/5;max-width:100%;border-radius:28px;background:linear-gradient(160deg,#4A3838,#2B2222);color:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;box-shadow:0 20px 40px rgba(59,47,47,.18);overflow:hidden}
 .fam-frame{aspect-ratio:3/4}
-.fam-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:kb 14s ease-in-out infinite alternate;transform-origin:50% 45%}
+.fam-frame video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.fam-sound{position:absolute;right:12px;top:12px;left:auto}
 @keyframes kb{0%{transform:scale(1)}100%{transform:scale(1.09) translateY(-1.5%)}}
 .hearts{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 .hearts i{position:absolute;bottom:-30px;font-size:22px;font-style:normal;animation:rise 6s linear infinite;opacity:0}
@@ -291,9 +292,8 @@ h1,h2,h3{margin:0;font-family:var(--f-title);font-weight:400;text-wrap:balance;l
   <div class="eyebrow">우리 가족</div>
   <h2>로운이와 함께한<br>우리 가족의 첫 1년</h2>
   <div class="fam-frame" id="famFrame">
-    <img class="fam-img" src="assets/family.jpg" alt="로운이네 가족사진">
-    <div class="hearts" id="hearts" aria-hidden="true"></div>
-    <span class="ch heart lg fam-ch" style="right:10px;bottom:14px"><i></i></span>
+    <video id="famV" src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GObHnwJ1UMUu9vETRNq0YG4Q5L/2c22530d-6bff-4511-8862-b0d9160756b3.mp4" poster="assets/family.jpg" muted loop playsinline preload="metadata"></video>
+    <button class="sound fam-sound" id="famSound" type="button" aria-pressed="false">🔇 소리 켜기</button>
   </div>
   </div>
   <div class="credit">Made with love for 이로운 · 2026<br>음악: Kevin MacLeod (<a href="https://incompetech.com" target="_blank" rel="noopener">incompetech.com</a>) · CC BY 4.0<br>Heartwarming · Carefree · Happy Bee · Life of Riley</div>
@@ -386,8 +386,9 @@ h1,h2,h3{margin:0;font-family:var(--f-title);font-weight:400;text-wrap:balance;l
   for(var i=0;i<22;i++){ var s=document.createElement('i'); s.style.left=(Math.random()*100)+'%'; s.style.background=cols[i%cols.length]; s.style.animationDelay=(-Math.random()*7)+'s'; s.style.animationDuration=(6+Math.random()*5)+'s'; s.style.transform='rotate('+(Math.random()*360)+'deg)'; cf.appendChild(s); }
 
   /* copy helpers */
-  var hb=document.getElementById('hearts'), hc=['💗','💕','💛','🩵','✨'];
-  for(var h=0;h<10;h++){ var e=document.createElement('i'); e.textContent=hc[h%hc.length]; e.style.left=(5+Math.random()*85)+'%'; e.style.animationDelay=(-Math.random()*6)+'s'; e.style.animationDuration=(5+Math.random()*4)+'s'; e.style.fontSize=(16+Math.random()*14)+'px'; hb.appendChild(e); }
+  var fv=document.getElementById('famV'), fsb=document.getElementById('famSound');
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){es.forEach(function(e){ if(e.isIntersecting){fv.play().catch(function(){});} else {fv.pause();} });},{threshold:.3}).observe(fv); } else { fv.play().catch(function(){}); }
+  fsb.addEventListener('click',function(){ fv.muted=!fv.muted; if(!fv.muted){ if(!hv.muted){hv.muted=true;setBtn();} vids.forEach(function(o){o.pause();}); fv.play().catch(function(){}); } fsb.textContent=fv.muted?'🔇 소리 켜기':'🔊 소리 끄기'; fsb.setAttribute('aria-pressed',String(!fv.muted)); });
   var toast=document.getElementById('toast'), tt;
   function say(m){ toast.textContent=m; toast.classList.add('on'); clearTimeout(tt); tt=setTimeout(function(){toast.classList.remove('on');},1800); }
   function copy(text,ok){
